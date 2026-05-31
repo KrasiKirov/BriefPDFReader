@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import './style/style.css';
 import axios from 'axios';
 
+// In production the frontend and backend are on different origins, so the API
+// base URL is configured at build time. Empty in dev -> relative path uses the
+// CRA proxy (package.json "proxy").
+const API_BASE = process.env.REACT_APP_API_BASE_URL || '';
+
 function PDFSummary() {
     const [result, setResult] = useState('');
     const [error, setError] = useState('');
@@ -16,23 +21,27 @@ function PDFSummary() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setLoading(true);
 
+        // Validate before entering the loading state so loading is never left
+        // stuck "on" by an early return.
         if (!maxWords) {
             setError('Please enter a number of words for the summary.');
             setResult('');
             return;
         }
 
+        setLoading(true);
+
         try {
             const formData = new FormData();
             formData.append('pdf', selectedFile);
             formData.append('maxWords', maxWords);
 
-            const response = await axios.post('/api/pdfsummary', formData, {
+            const response = await axios.post(`${API_BASE}/api/pdfsummary`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                timeout: 120000,
             });
 
             if (response.data.error) {
@@ -46,7 +55,13 @@ function PDFSummary() {
         } catch (error) {
             console.error(error);
             setResult('');
-            setError('An error occurred while submitting the form.');
+            // Surface the server's safe message (413/415/429/400) when present.
+            const message =
+                error.response?.data?.error ||
+                (error.code === 'ECONNABORTED'
+                    ? 'The request timed out. Try a smaller PDF.'
+                    : 'An error occurred while submitting the form.');
+            setError(message);
         } finally {
             setLoading(false);
         }
@@ -75,6 +90,7 @@ function PDFSummary() {
                             <input
                                 type='number'
                                 min='10'
+                                max='2500'
                                 value={maxWords}
                                 onChange={(e) => setMaxWords(e.target.value)}
                                 className='form-control custom-input'

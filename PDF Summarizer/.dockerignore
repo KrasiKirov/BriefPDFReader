@@ -1,0 +1,9 @@
+node_modules
+frontend
+.env
+.env.*
+tasks
+**/.DS_Store
+backend/pdfsummary/*
+!backend/pdfsummary/.gitkeep
+npm-debug.log*
