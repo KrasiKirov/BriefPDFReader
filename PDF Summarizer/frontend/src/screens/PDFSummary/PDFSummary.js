@@ -68,48 +68,108 @@ function PDFSummary() {
     };
 
     return (
-        <div className="container mt-5">
-            <div className='hero d-flex align-items-center justify-content-center text-center flex-column p-5'>
-                <h1 className='display-4 mb-4'>BriefPDF Reader</h1>
-                <p className='lead mb-4'>Transform lengthy PDFs into concise summaries in seconds</p>
-                <form className='w-100' onSubmit={handleSubmit}>
-                    <div className="form-group file-upload-wrapper">
-                        <input 
-                            type='file' 
-                            id='fileInput'
-                            className='custom-file-input' 
-                            accept='.pdf' 
-                            onChange={handleFileChange}
-                        />
-                        <label className="custom-file-label" htmlFor="fileInput">
-                            {selectedFile ? selectedFile.name : 'Choose a PDF file'}
-                        </label>
+        <div className="page">
+            <div className="page-grain" aria-hidden="true" />
+
+            <main className="sheet">
+                <header className="masthead">
+                    <div className="masthead-rule">
+                        <span>The Condenser</span>
+                        <span className="masthead-mark" aria-hidden="true">¶</span>
+                        <span>No. 01 · GPT</span>
                     </div>
-                    <div className="form-group row">
-                        <div className='col-sm-4 offset-sm-4'>
+                    <p className="kicker">A document condenser</p>
+                    <h1 className="wordmark">
+                        BriefPDF&nbsp;<em>Reader</em>
+                    </h1>
+                    <p className="dek">
+                        Long documents, distilled. Hand over a PDF and receive a faithful
+                        summary — you set the length, we set the type.
+                    </p>
+                </header>
+
+                <form className="composer" onSubmit={handleSubmit}>
+                    <div className="field">
+                        <span className="field-num" aria-hidden="true">01</span>
+                        <div className="field-body">
+                            <label className="field-label" htmlFor="fileInput">
+                                The manuscript
+                            </label>
                             <input
-                                type='number'
-                                min='10'
-                                max='2500'
-                                value={maxWords}
-                                onChange={(e) => setMaxWords(e.target.value)}
-                                className='form-control custom-input'
+                                type="file"
+                                id="fileInput"
+                                className="field-file"
+                                accept=".pdf"
+                                onChange={handleFileChange}
                             />
+                            <label className="dropzone" htmlFor="fileInput">
+                                <span className={selectedFile ? 'dropzone-name is-set' : 'dropzone-name'}>
+                                    {selectedFile ? selectedFile.name : 'Choose a PDF to condense'}
+                                </span>
+                                <span className="dropzone-cta">Browse</span>
+                            </label>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <button
-                            type='submit'
-                            disabled={!selectedFile || loading}
-                            className='btn btn-primary custom-button mt-3 w-100'
-                        >
-                            {loading ? 'Analysing PDF...' : `Summarize PDF in about ${maxWords} words`}
-                        </button>
+
+                    <div className="field">
+                        <span className="field-num" aria-hidden="true">02</span>
+                        <div className="field-body">
+                            <label className="field-label" htmlFor="wordInput">
+                                Target length
+                            </label>
+                            <div className="count-row">
+                                <input
+                                    type="number"
+                                    id="wordInput"
+                                    min="10"
+                                    max="2500"
+                                    value={maxWords}
+                                    onChange={(e) => setMaxWords(e.target.value)}
+                                    className="count-input"
+                                />
+                                <span className="count-unit">words, give or take</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <button
+                        type="submit"
+                        disabled={!selectedFile || loading}
+                        className={loading ? 'press is-working' : 'press'}
+                    >
+                        <span className="press-label">
+                            {loading ? 'Setting type' : 'Condense the document'}
+                        </span>
+                        <span className="press-meta" aria-hidden="true">
+                            {loading ? '¶' : `≈ ${maxWords || 0} words`}
+                        </span>
+                    </button>
                 </form>
-            </div>
-            {error && <div className="alert alert-danger mt-3">{error}</div>}
-            {result && <div className="alert alert-success mt-3">{result}</div>}
+
+                {error && (
+                    <div className="proof proof-error" role="alert">
+                        <span className="proof-tag">Set aside</span>
+                        <p className="proof-text">{error}</p>
+                    </div>
+                )}
+
+                {result && (
+                    <article className="excerpt">
+                        <div className="excerpt-head">
+                            <span className="excerpt-tag">The summary</span>
+                            <span className="excerpt-meta">≈ {maxWords} words</span>
+                        </div>
+                        <p className="excerpt-body">{result}</p>
+                        <div className="excerpt-foot" aria-hidden="true">¶</div>
+                    </article>
+                )}
+
+                <footer className="colophon">
+                    <span>Set in Fraunces &amp; Newsreader</span>
+                    <span aria-hidden="true">¶</span>
+                    <span>Composed with care</span>
+                </footer>
+            </main>
         </div>
     );
 }
