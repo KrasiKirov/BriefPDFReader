@@ -1,7 +1,7 @@
 # BriefPDF Reader
 
 Long documents, distilled. Upload a PDF, choose a target length, and get a
-faithful, length-controlled summary — rendered as a clean, typeset excerpt.
+faithful, length-controlled summary; rendered as a clean, typeset excerpt.
 
 ## 🔗 Try it
 
@@ -37,7 +37,7 @@ hit **Condense the document**.
                           Backend (Express, Railway)
                             ├── services/pdf.js        extract text
                             ├── services/tokens.js     count + chunk
-                            └── services/summarize.js  ──►  OpenAI gpt-4.1-mini
+                            └── services/summarize.js  OpenAI gpt-4.1-mini
 ```
 
 The OpenAI API key lives only on the backend (Railway) and is never sent to the
@@ -70,7 +70,7 @@ npm install
 npm start                   # http://localhost:3000 (proxies /api -> :5000)
 ```
 
-Leave `REACT_APP_API_BASE_URL` empty for local dev — the CRA proxy forwards
+Leave `REACT_APP_API_BASE_URL` empty for local dev, the CRA proxy forwards
 `/api` calls to the local backend.
 
 **Tests** (from `PDF Summarizer/`)
