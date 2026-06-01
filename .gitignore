@@ -28,3 +28,8 @@ npm-debug.log*
 
 # Stray lockfiles
 package-lock-*.json
+
+# Working notes & process artifacts (kept on disk, not part of the app)
+tasks/
+docs/superpowers/
+DEPLOY.md
