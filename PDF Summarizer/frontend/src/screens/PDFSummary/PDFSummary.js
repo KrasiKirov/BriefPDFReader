@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import './style/style.css';
 import axios from 'axios';
 
@@ -159,7 +161,9 @@ function PDFSummary() {
                             <span className="excerpt-tag">The summary</span>
                             <span className="excerpt-meta">≈ {maxWords} words</span>
                         </div>
-                        <p className="excerpt-body">{result}</p>
+                        <div className="excerpt-body">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{result}</ReactMarkdown>
+                        </div>
                         <div className="excerpt-foot" aria-hidden="true">¶</div>
                     </article>
                 )}
