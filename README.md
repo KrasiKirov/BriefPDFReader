@@ -10,6 +10,16 @@ faithful, length-controlled summary; rendered as a clean, typeset excerpt.
 No sign-up required. Drop in a PDF, pick how many words you want (10–2500), and
 hit **Condense the document**.
 
+## Screenshots
+
+**Landing** — pick a PDF and a target length, then condense.
+
+![BriefPDF Reader landing page](LandingPage.png)
+
+**Result** — the summary, rendered as a clean, typeset excerpt.
+
+![BriefPDF Reader summary result](Result.png)
+
 ## What it does
 
 1. You upload a PDF and set a target summary length.
